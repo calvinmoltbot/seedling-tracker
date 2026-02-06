@@ -81,29 +81,29 @@ export default function AppShell({ children }) {
             to="/"
             end
             className={({ isActive }) =>
-              `flex-1 flex flex-col items-center py-2 pt-2.5 ${isActive ? 'text-leaf-600' : 'text-soil-400'}`
+              `flex-1 flex flex-col items-center py-3 min-h-[48px] ${isActive ? 'text-leaf-600' : 'text-soil-400'}`
             }
           >
             <NavIcon type="home" />
-            <span className="text-[10px] font-medium mt-0.5">Home</span>
+            <span className="text-[11px] font-medium mt-0.5">Home</span>
           </NavLink>
           <NavLink
             to="/quick-add"
             className={({ isActive }) =>
-              `flex-1 flex flex-col items-center py-2 pt-2.5 ${isActive ? 'text-leaf-600' : 'text-soil-400'}`
+              `flex-1 flex flex-col items-center py-3 min-h-[48px] ${isActive ? 'text-leaf-600' : 'text-soil-400'}`
             }
           >
             <NavIcon type="add" />
-            <span className="text-[10px] font-medium mt-0.5">Quick Add</span>
+            <span className="text-[11px] font-medium mt-0.5">Quick Add</span>
           </NavLink>
           <NavLink
             to="/quick-update"
             className={({ isActive }) =>
-              `flex-1 flex flex-col items-center py-2 pt-2.5 ${isActive ? 'text-leaf-600' : 'text-soil-400'}`
+              `flex-1 flex flex-col items-center py-3 min-h-[48px] ${isActive ? 'text-leaf-600' : 'text-soil-400'}`
             }
           >
             <NavIcon type="update" />
-            <span className="text-[10px] font-medium mt-0.5">Update</span>
+            <span className="text-[11px] font-medium mt-0.5">Update</span>
           </NavLink>
         </div>
       </nav>

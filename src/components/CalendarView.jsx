@@ -50,11 +50,11 @@ export default function CalendarView({ sowings, onSelectDate, selectedDate }) {
   return (
     <div className="bg-white rounded-2xl border border-soil-200/60 p-5">
       <div className="flex items-center justify-between mb-4">
-        <button onClick={prevMonth} className="p-2 hover:bg-soil-100 rounded-lg transition-colors">
+        <button onClick={prevMonth} className="p-2.5 hover:bg-soil-100 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <h3 className="font-display text-lg font-semibold text-soil-800">{monthName}</h3>
-        <button onClick={nextMonth} className="p-2 hover:bg-soil-100 rounded-lg transition-colors">
+        <button onClick={nextMonth} className="p-2.5 hover:bg-soil-100 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
@@ -79,7 +79,7 @@ export default function CalendarView({ sowings, onSelectDate, selectedDate }) {
             <button
               key={day}
               onClick={() => onSelectDate(isSelected ? null : date)}
-              className={`relative p-1.5 rounded-lg text-sm transition-colors
+              className={`relative p-2 rounded-lg text-sm transition-colors min-h-[40px] flex flex-col items-center justify-center
                 ${isSelected ? 'bg-leaf-600 text-white' : isToday ? 'bg-soil-100 text-soil-900 font-semibold' : 'hover:bg-soil-50 text-soil-700'}
               `}
             >

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { createSowing, uploadPhoto } from '../services/api'
+import { shareLabelImage } from '../utils/labelPrinter'
 import PageHeader from '../components/PageHeader'
 
 export default function QuickNewSowing() {
@@ -53,13 +54,13 @@ export default function QuickNewSowing() {
           </div>
 
           <div className="space-y-3 w-full max-w-sm animate-fade-up" style={{ animationDelay: '0.15s' }}>
-            <Link
-              to={`/print?ids=${created.id}`}
+            <button
+              onClick={() => shareLabelImage(created)}
               className="flex items-center justify-center gap-2 w-full bg-soil-800 text-white font-semibold py-3.5 rounded-2xl text-base active:scale-[0.98] transition-transform"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-              Print Label
-            </Link>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              Print D30 Label
+            </button>
             <button
               onClick={reset}
               className="w-full bg-leaf-600 text-white font-semibold py-3.5 rounded-2xl text-base shadow-md shadow-leaf-600/20 active:scale-[0.98] transition-transform"
@@ -68,7 +69,7 @@ export default function QuickNewSowing() {
             </button>
             <Link
               to={`/sowings/${created.id}`}
-              className="block w-full text-center text-sm text-leaf-600 font-medium py-2"
+              className="block w-full text-center text-sm text-leaf-600 font-medium py-3 min-h-[44px]"
             >
               Add more details
             </Link>
@@ -102,7 +103,6 @@ export default function QuickNewSowing() {
               onChange={e => setSeedName(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSave()}
               placeholder="e.g. Tomato"
-              autoFocus
               className="w-full px-4 py-4 border border-soil-200 bg-white rounded-2xl text-lg font-display font-semibold focus:outline-none focus:ring-2 focus:ring-leaf-400/40 focus:border-leaf-400 transition-shadow placeholder:text-soil-300 placeholder:font-normal"
             />
           </div>
@@ -117,7 +117,7 @@ export default function QuickNewSowing() {
               />
               <button
                 onClick={() => setPhoto(null)}
-                className="absolute top-2 right-2 w-8 h-8 bg-soil-900/60 text-white rounded-full flex items-center justify-center"
+                className="absolute top-2 right-2 w-11 h-11 bg-soil-900/60 text-white rounded-full flex items-center justify-center"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>

@@ -59,7 +59,7 @@ export default function QuickStatusUpdate() {
           placeholder="Search by code or name..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="w-full px-4 py-3 rounded-2xl border border-soil-200 bg-white text-soil-900 placeholder:text-soil-400 text-sm focus:outline-none focus:ring-2 focus:ring-leaf-400/40 focus:border-leaf-400 transition-shadow mb-4"
+          className="w-full px-4 py-3 rounded-2xl border border-soil-200 bg-white text-soil-900 placeholder:text-soil-400 text-base focus:outline-none focus:ring-2 focus:ring-leaf-400/40 focus:border-leaf-400 transition-shadow mb-4"
         />
 
         {loading ? (

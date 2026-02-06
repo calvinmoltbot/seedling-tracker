@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { getSowing, listSowings } from '../services/api'
+import { shareLabelImage, shareMultipleLabels } from '../utils/labelPrinter'
 
 function Label({ sowing, size = 'standard' }) {
   if (size === 'compact') {
@@ -88,11 +89,18 @@ export default function PrintLabels() {
           </div>
 
           <button
-            onClick={() => window.print()}
+            onClick={() => sowings.length === 1 ? shareLabelImage(sowings[0]) : shareMultipleLabels(sowings)}
             className="w-full bg-leaf-600 text-white font-semibold py-3.5 rounded-2xl text-base shadow-md shadow-leaf-600/20 active:scale-[0.98] transition-transform flex items-center justify-center gap-2 min-h-[44px]"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            Share D30 Label{sowings.length !== 1 ? 's' : ''}
+          </button>
+          <button
+            onClick={() => window.print()}
+            className="w-full bg-white text-soil-600 border border-soil-200 font-semibold py-3.5 rounded-2xl text-base active:scale-[0.98] transition-transform flex items-center justify-center gap-2 min-h-[44px]"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-            Print
+            Paper Print
           </button>
         </div>
       </div>

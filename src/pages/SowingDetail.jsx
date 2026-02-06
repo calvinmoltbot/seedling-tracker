@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { getSowing, updateSowing, deleteSowing } from '../services/api'
 import { STATUS_TRANSITIONS, ACTION_LABELS } from '../utils/constants'
+import { shareLabelImage } from '../utils/labelPrinter'
 import StatusBadge from '../components/StatusBadge'
 import PageHeader from '../components/PageHeader'
 
@@ -104,13 +105,22 @@ export default function SowingDetail() {
         <div className="bg-white rounded-2xl border border-soil-200/60 p-5 text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
           <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium mb-1">Label Code</p>
           <p className="font-mono text-4xl font-bold text-soil-900 tracking-wider">{sowing.sowing_code}</p>
-          <Link
-            to={`/print?ids=${sowing.id}`}
-            className="inline-flex items-center gap-1.5 mt-3 text-sm text-leaf-600 font-medium hover:text-leaf-700 transition-colors"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-            Print Label
-          </Link>
+          <div className="flex items-center justify-center gap-4 mt-3">
+            <button
+              onClick={() => shareLabelImage(sowing)}
+              className="inline-flex items-center gap-1.5 text-sm text-leaf-600 font-medium hover:text-leaf-700 transition-colors min-h-[44px]"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              D30 Label
+            </button>
+            <Link
+              to={`/print?ids=${sowing.id}`}
+              className="inline-flex items-center gap-1.5 text-sm text-soil-400 font-medium hover:text-soil-600 transition-colors min-h-[44px]"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Paper Print
+            </Link>
+          </div>
         </div>
 
         {/* Details grid */}
@@ -140,7 +150,7 @@ export default function SowingDetail() {
           <div className="flex items-center justify-between mb-2">
             <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium">Notes</p>
             {!editingNotes && (
-              <button onClick={() => setEditingNotes(true)} className="text-sm text-leaf-600 font-medium">
+              <button onClick={() => setEditingNotes(true)} className="text-sm text-leaf-600 font-medium px-2 py-2 -my-2 min-h-[44px] flex items-center">
                 Edit
               </button>
             )}
@@ -150,9 +160,8 @@ export default function SowingDetail() {
               <textarea
                 value={notes}
                 onChange={e => setNotes(e.target.value)}
-                className="w-full border border-soil-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-leaf-400/40"
+                className="w-full border border-soil-200 rounded-xl p-3 text-base focus:outline-none focus:ring-2 focus:ring-leaf-400/40"
                 rows={3}
-                autoFocus
               />
               <div className="flex gap-2 mt-2">
                 <button onClick={saveNotes} className="bg-leaf-600 text-white px-4 py-2 rounded-xl text-sm font-medium">

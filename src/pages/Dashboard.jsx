@@ -80,7 +80,7 @@ export default function Dashboard() {
       <div className="min-h-screen bg-soil-100">
         <PageHeader title="Seedling Tracker" subtitle="Garden Journal" />
         <div className="p-5 space-y-4">
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[1, 2, 3, 4].map(i => (
               <div key={i} className="bg-white rounded-2xl border border-soil-200/60 p-4 h-20 animate-pulse" />
             ))}
@@ -123,12 +123,12 @@ export default function Dashboard() {
                 placeholder="Search..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-soil-200 bg-white text-soil-900 placeholder:text-soil-400 text-sm focus:outline-none focus:ring-2 focus:ring-leaf-400/40 focus:border-leaf-400 transition-shadow"
+                className="flex-1 px-4 py-2.5 rounded-xl border border-soil-200 bg-white text-soil-900 placeholder:text-soil-400 text-base focus:outline-none focus:ring-2 focus:ring-leaf-400/40 focus:border-leaf-400 transition-shadow"
               />
               <select
                 value={statusFilter || ''}
                 onChange={e => setStatusFilter(e.target.value || null)}
-                className="px-3 py-2.5 rounded-xl border border-soil-200 bg-white text-soil-700 text-sm focus:outline-none focus:ring-2 focus:ring-leaf-400/40"
+                className="px-3 py-2.5 rounded-xl border border-soil-200 bg-white text-soil-700 text-base focus:outline-none focus:ring-2 focus:ring-leaf-400/40"
               >
                 <option value="">All status</option>
                 {Object.entries(STATUS).map(([key, { label }]) => (
@@ -159,7 +159,7 @@ export default function Dashboard() {
             {selectedDate && (
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-xs text-soil-500">Showing events for {selectedDate}</span>
-                <button onClick={() => setSelectedDate(null)} className="text-xs text-leaf-600 font-medium">Clear</button>
+                <button onClick={() => setSelectedDate(null)} className="text-sm text-leaf-600 font-medium px-2 py-1 -my-1 min-h-[44px] flex items-center">Clear</button>
               </div>
             )}
 

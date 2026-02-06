@@ -147,7 +147,6 @@ export default function NewSowing() {
                   onChange={e => updateForm('seed_name', e.target.value)}
                   placeholder="e.g. Tomato"
                   className="w-full px-4 py-3.5 border border-soil-200 bg-white rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-leaf-400/40 focus:border-leaf-400 transition-shadow"
-                  autoFocus
                 />
               </div>
               <div>

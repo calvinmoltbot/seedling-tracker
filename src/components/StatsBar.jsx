@@ -7,7 +7,7 @@ export default function StatsBar({ stats }) {
   ]
 
   return (
-    <div className="grid grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {items.map(item => (
         <div key={item.label} className="bg-white rounded-2xl border border-soil-200/60 p-4 text-center">
           <p className={`font-display text-3xl lg:text-5xl font-semibold ${item.color}`}>
