@@ -55,15 +55,24 @@ export default function SowingsList() {
           />
         </div>
 
-        {/* New Sowing button */}
-        <Link
-          to="/sowings/new"
-          className="mt-4 flex items-center justify-center gap-2 w-full bg-leaf-600 hover:bg-leaf-700 active:scale-[0.98] text-white font-semibold px-5 py-3.5 rounded-2xl text-base shadow-md shadow-leaf-600/20 transition-all animate-fade-up"
-          style={{ animationDelay: '0.08s' }}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          New Sowing
-        </Link>
+        {/* Action buttons */}
+        <div className="mt-4 flex gap-3 animate-fade-up" style={{ animationDelay: '0.08s' }}>
+          <Link
+            to="/sowings/new"
+            className="flex-1 flex items-center justify-center gap-2 bg-leaf-600 hover:bg-leaf-700 active:scale-[0.98] text-white font-semibold px-5 py-3.5 rounded-2xl text-base shadow-md shadow-leaf-600/20 transition-all"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Sowing
+          </Link>
+          {sowings.length > 0 && (
+            <Link
+              to="/print?mode=sheet"
+              className="flex items-center justify-center gap-2 bg-white border-2 border-soil-200 hover:border-soil-300 active:scale-[0.98] text-soil-600 font-semibold px-4 py-3.5 rounded-2xl text-base transition-all"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            </Link>
+          )}
+        </div>
 
         {/* List */}
         {loading ? (
