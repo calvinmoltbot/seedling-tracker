@@ -128,6 +128,13 @@ export default function SowingDetail() {
         <div className="bg-white rounded-2xl border border-soil-200/60 p-5 text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
           <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium mb-1">Label Code</p>
           <p className="font-mono text-4xl font-bold text-soil-900 tracking-wider">{sowing.sowing_code}</p>
+          <Link
+            to={`/print?ids=${sowing.id}`}
+            className="inline-flex items-center gap-1.5 mt-3 text-sm text-leaf-600 font-medium hover:text-leaf-700 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Print Label
+          </Link>
         </div>
 
         {/* Details grid */}
