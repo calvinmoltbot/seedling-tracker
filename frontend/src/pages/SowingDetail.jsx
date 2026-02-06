@@ -1,0 +1,213 @@
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate, Link } from 'react-router-dom'
+
+const STATUS = {
+  planted: { label: 'Planted', bg: 'bg-sky-400/15', text: 'text-sky-500', dot: 'bg-sky-400' },
+  germinated: { label: 'Sprouted', bg: 'bg-leaf-400/15', text: 'text-leaf-600', dot: 'bg-leaf-400' },
+  potted: { label: 'Potted', bg: 'bg-clay-500/15', text: 'text-clay-500', dot: 'bg-clay-400' },
+  shared: { label: 'Shared', bg: 'bg-berry-500/15', text: 'text-berry-500', dot: 'bg-berry-400' },
+  discarded: { label: 'Gone', bg: 'bg-soil-300/20', text: 'text-soil-400', dot: 'bg-soil-300' },
+}
+
+const STATUS_TRANSITIONS = {
+  planted: ['germinated'],
+  germinated: ['potted'],
+  potted: ['shared', 'discarded'],
+  shared: [],
+  discarded: [],
+}
+
+const ACTION_LABELS = {
+  germinated: 'Mark as Sprouted',
+  potted: 'Mark as Potted',
+  shared: 'Mark as Shared',
+  discarded: 'Mark as Discarded',
+}
+
+export default function SowingDetail() {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const [sowing, setSowing] = useState(null)
+  const [editingNotes, setEditingNotes] = useState(false)
+  const [notes, setNotes] = useState('')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch(`/api/sowings/${id}`)
+      .then(r => { if (!r.ok) throw new Error(); return r.json() })
+      .then(data => { setSowing(data); setNotes(data.notes || ''); setLoading(false) })
+      .catch(() => navigate('/'))
+  }, [id])
+
+  async function updateStatus(status) {
+    const res = await fetch(`/api/sowings/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    })
+    setSowing(await res.json())
+  }
+
+  async function saveNotes() {
+    const res = await fetch(`/api/sowings/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ notes }),
+    })
+    setSowing(await res.json())
+    setEditingNotes(false)
+  }
+
+  async function deleteSowing() {
+    if (!window.confirm('Delete this sowing?')) return
+    await fetch(`/api/sowings/${id}`, { method: 'DELETE' })
+    navigate('/')
+  }
+
+  if (loading) return (
+    <div className="min-h-screen bg-soil-100 flex items-center justify-center">
+      <div className="w-6 h-6 border-2 border-soil-300 border-t-leaf-500 rounded-full animate-spin" />
+    </div>
+  )
+  if (!sowing) return null
+
+  const packetPhoto = sowing.photos?.find(p => p.photo_type === 'packet')
+  const trayPhoto = sowing.photos?.find(p => p.photo_type === 'tray')
+  const nextStatuses = STATUS_TRANSITIONS[sowing.status] || []
+  const status = STATUS[sowing.status] || STATUS.planted
+
+  return (
+    <div className="min-h-screen bg-soil-100">
+      {/* Header */}
+      <header className="relative bg-soil-900 text-soil-50 px-5 pt-12 pb-5 texture-grain overflow-hidden">
+        <div className="relative z-10">
+          <Link to="/" className="inline-flex items-center gap-1 text-soil-400 text-sm mb-3 hover:text-soil-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+          </Link>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-soil-400 text-sm tracking-wide">{sowing.sowing_code}</span>
+            <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full font-medium ${status.bg} ${status.text}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
+              {status.label}
+            </span>
+          </div>
+          <h1 className="font-display text-2xl font-semibold tracking-tight mt-0.5">{sowing.seed_name}</h1>
+          {sowing.variety && <p className="text-soil-400 text-sm mt-0.5">{sowing.variety}</p>}
+        </div>
+      </header>
+
+      <div className="px-5 py-5 space-y-4">
+        {/* Photos */}
+        {(packetPhoto || trayPhoto) && (
+          <div className="flex gap-3 animate-fade-up">
+            {packetPhoto && (
+              <div className="flex-1">
+                <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium mb-1.5">Seed packet</p>
+                <img
+                  src={`/uploads/${packetPhoto.filename}`}
+                  alt="Seed packet"
+                  className="w-full rounded-2xl object-cover aspect-square ring-1 ring-soil-200"
+                />
+              </div>
+            )}
+            {trayPhoto && (
+              <div className="flex-1">
+                <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium mb-1.5">Planted tray</p>
+                <img
+                  src={`/uploads/${trayPhoto.filename}`}
+                  alt="Planted tray"
+                  className="w-full rounded-2xl object-cover aspect-square ring-1 ring-soil-200"
+                />
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Label code - prominent */}
+        <div className="bg-white rounded-2xl border border-soil-200/60 p-5 text-center animate-fade-up" style={{ animationDelay: '0.05s' }}>
+          <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium mb-1">Label Code</p>
+          <p className="font-mono text-4xl font-bold text-soil-900 tracking-wider">{sowing.sowing_code}</p>
+        </div>
+
+        {/* Details grid */}
+        <div className="bg-white rounded-2xl border border-soil-200/60 p-5 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <div className="grid grid-cols-2 gap-4">
+            {sowing.brand && (
+              <div>
+                <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium mb-0.5">Brand</p>
+                <p className="text-soil-800 font-medium">{sowing.brand}</p>
+              </div>
+            )}
+            <div>
+              <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium mb-0.5">Sown</p>
+              <p className="text-soil-800 font-medium">{sowing.sowing_date}</p>
+            </div>
+            {sowing.germination_date && (
+              <div>
+                <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium mb-0.5">Germinated</p>
+                <p className="text-soil-800 font-medium">{sowing.germination_date}</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Notes */}
+        <div className="bg-white rounded-2xl border border-soil-200/60 p-5 animate-fade-up" style={{ animationDelay: '0.15s' }}>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-[11px] uppercase tracking-wider text-soil-400 font-medium">Notes</p>
+            {!editingNotes && (
+              <button onClick={() => setEditingNotes(true)} className="text-sm text-leaf-600 font-medium">
+                Edit
+              </button>
+            )}
+          </div>
+          {editingNotes ? (
+            <div>
+              <textarea
+                value={notes}
+                onChange={e => setNotes(e.target.value)}
+                className="w-full border border-soil-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-leaf-400/40"
+                rows={3}
+                autoFocus
+              />
+              <div className="flex gap-2 mt-2">
+                <button onClick={saveNotes} className="bg-leaf-600 text-white px-4 py-2 rounded-xl text-sm font-medium">
+                  Save
+                </button>
+                <button onClick={() => { setEditingNotes(false); setNotes(sowing.notes || '') }} className="text-soil-400 px-4 py-2 text-sm">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-soil-600 leading-relaxed">{sowing.notes || 'No notes yet.'}</p>
+          )}
+        </div>
+
+        {/* Status actions */}
+        {nextStatuses.length > 0 && (
+          <div className="space-y-2 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+            {nextStatuses.map(s => (
+              <button
+                key={s}
+                onClick={() => updateStatus(s)}
+                className="w-full bg-white border-2 border-leaf-600 text-leaf-700 font-semibold py-3.5 rounded-2xl text-sm active:scale-[0.98] transition-transform"
+              >
+                {ACTION_LABELS[s] || `Mark as ${s}`}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Delete */}
+        <button
+          onClick={deleteSowing}
+          className="w-full text-soil-400 text-sm py-3 hover:text-clay-500 transition-colors"
+        >
+          Delete this sowing
+        </button>
+      </div>
+    </div>
+  )
+}
