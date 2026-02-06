@@ -1,13 +1,19 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import SowingsList from './pages/SowingsList'
+import SowingDetail from './pages/SowingDetail'
+import NewSowing from './pages/NewSowing'
+
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-green-700 text-white px-4 py-3">
-        <h1 className="text-xl font-bold">Seedling Tracker</h1>
-      </header>
-      <main className="p-4">
-        <p className="text-gray-600">Ready to track your sowings.</p>
-      </main>
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-50">
+        <Routes>
+          <Route path="/" element={<SowingsList />} />
+          <Route path="/sowings/:id" element={<SowingDetail />} />
+          <Route path="/sowings/new" element={<NewSowing />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   )
 }
 
