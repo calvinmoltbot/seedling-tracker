@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --color-soil-950: #1a0f0a;
+  --color-soil-900: #2c1810;
+  --color-soil-800: #3d2418;
+  --color-soil-700: #5c3a28;
+  --color-soil-600: #7a5240;
+  --color-soil-500: #96705e;
+  --color-soil-400: #b39484;
+  --color-soil-300: #d4bfb3;
+  --color-soil-200: #e8ddd6;
+  --color-soil-100: #f5f0ec;
+  --color-soil-50: #faf8f6;
+
+  --color-leaf-700: #2d5016;
+  --color-leaf-600: #3d6b1e;
+  --color-leaf-500: #4d8526;
+  --color-leaf-400: #6aad3a;
+  --color-leaf-300: #93c96e;
+  --color-leaf-200: #c2e4a6;
+  --color-leaf-100: #e5f4d8;
+
+  --color-sun-500: #d4940a;
+  --color-sun-400: #e8ad1c;
+  --color-sun-300: #f5cc5a;
+  --color-sun-200: #fbe5a0;
+
+  --color-clay-500: #c45d2e;
+  --color-clay-400: #da7a4e;
+
+  --color-sky-500: #3a7ca5;
+  --color-sky-400: #5ba3cc;
+
+  --color-berry-500: #7b3f7d;
+  --color-berry-400: #a35ea5;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-soil-100);
+  color: var(--color-soil-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Noise texture overlay for depth */
+.texture-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Staggered entry animations */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.4s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out both;
+}
+
+/* Stagger children */
+.stagger-children > * {
+  animation: fade-up 0.35s ease-out both;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(9) { animation-delay: 0.45s; }
+.stagger-children > *:nth-child(10) { animation-delay: 0.5s; }
+
+/* Skeleton loading pulse */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Print styles */
+@media print {
+  body { background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .print\:hidden { display: none !important; }
+  .print\:page-break-after { page-break-after: always; }
+  .label { border-color: #1a0f0a !important; }
+}
